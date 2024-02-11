@@ -1,13 +1,7 @@
 import React from "react";
 import { FC } from "react";
 import { Control } from "react-hook-form";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "./ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
 import {
   Select,
@@ -22,10 +16,7 @@ interface CustomFormFieldProps {
   control: Control<any>;
 }
 
-export const CustomFormField: FC<CustomFormFieldProps> = ({
-  name,
-  control,
-}) => {
+export const CustomFormField: FC<CustomFormFieldProps> = ({ name, control }) => {
   return (
     <FormField
       control={control}

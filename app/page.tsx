@@ -19,9 +19,9 @@ export default function Home() {
           </h1>
           <p className="leading-loose max-w-md mt-4">
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Hic fuga
-            consequuntur dolorem veniam cum quibusdam accusamus laudantium,
-            excepturi quae, perferendis delectus sed eos illum in numquam
-            voluptatem sequi adipisci ipsam?
+            consequuntur dolorem veniam cum quibusdam accusamus laudantium, excepturi
+            quae, perferendis delectus sed eos illum in numquam voluptatem sequi adipisci
+            ipsam?
           </p>
           <Button asChild className="mt-4">
             <Link href="/add-job">Get Started</Link>

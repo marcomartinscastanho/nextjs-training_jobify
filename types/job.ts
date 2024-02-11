@@ -1,16 +1,7 @@
 import * as z from "zod";
+import { Job } from "@prisma/client";
 
-export type JobType = {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  clerkId: string;
-  position: string;
-  company: string;
-  location: string;
-  status: string;
-  mode: string;
-};
+export type JobType = Job;
 
 export enum JobStatus {
   Pending = "pending",

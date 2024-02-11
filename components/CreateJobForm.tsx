@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "./ui/button";
 import { CustomFormField, CustomFormSelect } from "./FormComponents";
@@ -34,10 +33,7 @@ const CreateJobForm = () => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSubmit)}
-        className="bg-muted p-8 rounded"
-      >
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="bg-muted p-8 rounded">
         <h2 className="capitalize font-semibold text-4xl mb-6">add job</h2>
         <div className="grid gap-4 mf:grid-cols-2 lg:grid-cols-3 items-start">
           {/* position */}
