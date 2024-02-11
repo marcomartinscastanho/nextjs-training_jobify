@@ -42,7 +42,7 @@ const JobCard: FC<Props> = ({ job }) => {
         <Button asChild size="sm">
           <Link href={`/jobs/${job.id}`}>edit</Link>
         </Button>
-        <DeleteJobButton />
+        <DeleteJobButton id={job.id} />
       </CardFooter>
     </Card>
   );
