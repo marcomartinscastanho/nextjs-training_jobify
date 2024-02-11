@@ -12,6 +12,10 @@ import {
   JobStatus,
   createAndEditJobSchema,
 } from "@/types/job";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "./ui/use-toast";
+import { useRouter } from "next/navigation";
+import { createJobAction } from "@/utils/actions";
 
 const CreateJobForm = () => {
   // 1. Define the form
@@ -26,9 +30,27 @@ const CreateJobForm = () => {
     },
   });
 
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const router = useRouter();
+  const { mutate, isPending } = useMutation({
+    mutationFn: (values: CreateAndEditJobType) => createJobAction(values),
+    onSuccess: (data) => {
+      toast({ description: "job created" });
+      queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      queryClient.invalidateQueries({ queryKey: ["stats"] });
+      queryClient.invalidateQueries({ queryKey: ["charts"] });
+
+      router.push("/jobs");
+    },
+    onError: (error) => {
+      toast({ description: "there was an error" });
+    },
+  });
+
   // 2. Define a submit handler
   const handleSubmit = (values: CreateAndEditJobType) => {
-    console.log(values);
+    mutate(values);
   };
 
   return (
@@ -57,8 +79,8 @@ const CreateJobForm = () => {
             items={Object.values(JobMode)}
           />
           {/* button */}
-          <Button type="submit" className="self-end capitalize">
-            submit
+          <Button type="submit" className="self-end capitalize" disabled={isPending}>
+            {isPending ? "adding..." : "submit"}
           </Button>
         </div>
       </form>

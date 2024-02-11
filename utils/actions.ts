@@ -18,13 +18,8 @@ export const createJobAction = async (
   values: CreateAndEditJobType,
 ): Promise<JobType | null> => {
   const userId = authenticateAndRedirect();
-  try {
-    createAndEditJobSchema.parse(values);
-    return prisma.job.create({
-      data: { ...values, clerkId: userId },
-    });
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
+  createAndEditJobSchema.parse(values);
+  return prisma.job.create({
+    data: { ...values, clerkId: userId },
+  });
 };
