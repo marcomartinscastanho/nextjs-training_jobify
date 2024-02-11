@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "@/types/links";
+import { NavLink } from "@/types/navlink";
 import { AreaChart, Layers, AppWindow } from "lucide-react";
 
 export const links: NavLink[] = [
