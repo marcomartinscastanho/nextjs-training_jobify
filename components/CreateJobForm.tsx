@@ -14,6 +14,7 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { CustomFormField } from "./FormComponents";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -38,19 +39,7 @@ const CreateJobForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <CustomFormField name="username" control={form.control} />
         <Button type="submit">Submit</Button>
       </form>
     </Form>
