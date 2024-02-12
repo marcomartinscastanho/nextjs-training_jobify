@@ -11,6 +11,7 @@ import prisma from "./db";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { Prisma } from "@prisma/client";
+import { StatsType } from "@/types/stats";
 
 const authenticateAndRedirect = (): string => {
   const { userId } = auth();
@@ -92,4 +93,27 @@ export const updateJobAction = (
     where: { id, clerkId: userId },
     data: { ...values },
   });
+};
+
+export const getStatsAction = async (): Promise<StatsType> => {
+  const userId = authenticateAndRedirect();
+
+  const rawStats = await prisma.job.groupBy({
+    where: { clerkId: userId },
+    by: ["status"],
+    _count: { status: true },
+  });
+
+  const parsedStats = rawStats.reduce(
+    (acc, curr) => ({ ...acc, [curr.status]: curr._count.status }),
+    {} as Record<string, number>,
+  );
+
+  const defaultStats = {
+    pending: 0,
+    declined: 0,
+    interview: 0,
+  };
+
+  return { ...defaultStats, ...parsedStats };
 };
