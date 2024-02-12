@@ -56,12 +56,19 @@ export const getAllJobsAction = async ({
     where = { ...where, status: jobStatus };
   }
 
+  const skip = (page - 1) * limit;
+
   const jobs: JobType[] = await prisma.job.findMany({
     where,
+    skip,
+    take: limit,
     orderBy: { createdAt: "desc" },
   });
 
-  return { jobs, count: 0, page: 1, totalPages: 0 };
+  const count = await prisma.job.count({ where });
+  const totalPages = Math.ceil(count / limit);
+
+  return { jobs, count, page, totalPages };
 };
 
 export const deleteJobAction = (id: string): Promise<JobType> => {
