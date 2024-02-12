@@ -68,3 +68,28 @@ export const deleteJobAction = (id: string): Promise<JobType> => {
     where: { id, clerkId: userId },
   });
 };
+
+export const getJobAction = (id: string): Promise<JobType> => {
+  const userId = authenticateAndRedirect();
+
+  return prisma.job.findUniqueOrThrow({
+    where: {
+      id,
+      clerkId: userId,
+    },
+  });
+
+  // redirect('/jobs')
+};
+
+export const updateJobAction = (
+  id: string,
+  values: CreateAndEditJobType,
+): Promise<JobType> => {
+  const userId = authenticateAndRedirect();
+
+  return prisma.job.update({
+    where: { id, clerkId: userId },
+    data: { ...values },
+  });
+};
