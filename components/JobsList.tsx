@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 import JobCard from "./JobCard";
-import SimplePaginationContainer from "./SimplePaginationContainer";
+import ComplexPaginationContainer from "./ComplexPaginationContainer";
 
 const JobsList = () => {
   const searchParams = useSearchParams();
@@ -35,7 +35,7 @@ const JobsList = () => {
       <div className="flex items-center justify-between mb-8">
         <h2 className="text-xl font-semibold capitalize">{count} jobs found</h2>
         {totalPages < 2 ? null : (
-          <SimplePaginationContainer currentPage={page} totalPages={totalPages} />
+          <ComplexPaginationContainer currentPage={page} totalPages={totalPages} />
         )}
       </div>
       <div className="grid md:grid-cols-2 gap-8">
