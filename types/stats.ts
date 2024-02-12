@@ -3,3 +3,8 @@ export type StatsType = {
   interview: number;
   declined: number;
 };
+
+export type ChartDataType = {
+  date: string;
+  count: number;
+};

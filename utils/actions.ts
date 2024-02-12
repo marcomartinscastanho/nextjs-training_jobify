@@ -11,7 +11,8 @@ import prisma from "./db";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { Prisma } from "@prisma/client";
-import { StatsType } from "@/types/stats";
+import { ChartDataType, StatsType } from "@/types/stats";
+import dayjs from "dayjs";
 
 const authenticateAndRedirect = (): string => {
   const { userId } = auth();
@@ -116,4 +117,37 @@ export const getStatsAction = async (): Promise<StatsType> => {
   };
 
   return { ...defaultStats, ...parsedStats };
+};
+
+export const getChartsDataAction = async (): Promise<ChartDataType[]> => {
+  const userId = authenticateAndRedirect();
+  const sixMonthsAgo = dayjs().subtract(6, "month").toDate();
+
+  const jobs = await prisma.job.findMany({
+    where: {
+      clerkId: userId,
+      createdAt: { gte: sixMonthsAgo },
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
+
+  return jobs.reduce((acc, job) => {
+    const date = dayjs(job.createdAt).format("MMM YY");
+    const existingEntry = acc.find((entry) => entry.date === date);
+    const existingEntryIndex = acc.findIndex((entry) => entry.date === date);
+
+    if (!existingEntry) {
+      return [...acc, { date, count: 1 }];
+    }
+
+    let updatedAcc = [...acc];
+    updatedAcc[existingEntryIndex] = {
+      date: existingEntry.date,
+      count: existingEntry.count + 1,
+    };
+
+    return updatedAcc;
+  }, [] as ChartDataType[]);
 };
